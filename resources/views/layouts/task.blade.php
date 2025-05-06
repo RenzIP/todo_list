@@ -3,16 +3,19 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial
-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ config('app.name', 'Task Manager') }}</title>
+
+    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;
- 600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootst
- rap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font
-awesome/6.0.0/css/all.min.css">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
         :root {
             --purple-primary: #6B46C1;
@@ -57,8 +60,7 @@ awesome/6.0.0/css/all.min.css">
         }
 
         .navbar-profile:hover {
-            background: rgba(255, 255, 255,
-                    0.7);
+            background: rgba(255, 255, 255, 0.7);
         }
 
         .profile-info {
@@ -79,7 +81,7 @@ awesome/6.0.0/css/all.min.css">
         .profile-avatar {
             width: 36px;
             height: 36px;
-            background: linear-gradient(135deg, var(--purple light), var(--purple-primary));
+            background: linear-gradient(135deg, var(--purple-light), var(--purple-primary));
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -104,6 +106,21 @@ awesome/6.0.0/css/all.min.css">
             border-color: var(--purple-dark);
         }
 
+        .nav-tabs .nav-link.active {
+            color: var(--purple-primary);
+            border-color: var(--purple-primary);
+            border-bottom: 2px solid var(--purple-primary);
+        }
+
+        .nav-tabs .nav-link {
+            color: #6B7280;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--purple-primary);
+            border-color: var(--purple-primary);
+        }
+
         .alert {
             border-radius: 0.75rem;
         }
@@ -117,6 +134,7 @@ awesome/6.0.0/css/all.min.css">
             border-radius: 1rem;
         }
 
+        
         .search-input {
             background-color: var(--purple-dark);
             border: none;
@@ -129,9 +147,12 @@ awesome/6.0.0/css/all.min.css">
         }
 
         .search-input:focus {
-            background-color: var(--purple dark);
+            background-color: var(--purple-dark);
             color: white;
             box-shadow: 0 0 0 2px var(--purple-light);
+        }
+        .fa-seach{
+            color: var(--purple-lighter);
         }
 
         .dropdown-menu {
@@ -140,51 +161,134 @@ awesome/6.0.0/css/all.min.css">
         }
 
         .dropdown-item:hover {
-            background-color: var(--purple lightest);
+            background-color: var(--purple-lightest);
         }
 
         .icon {
             color: var(--purple-primary);
+        }
+
+        @media (max-width: 768px) {
+
+          
+            .navbar {
+                width: 100%;
+            }
+
+         
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+           
+            .card {
+                /* border-radius: 0.75rem; */
+                /* margin-left: -0.5rem;
+                margin-right: -0.5rem; */
+                /* width: calc(100% + 1rem); */
+            }
+
+           
+            .btn-group {
+                display: flex;
+                gap: 0.5rem;
+            }
+
+            
+            .nav-tabs {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                scrollbar-width: none;
+                width: 100%;
+                padding: 0 0.25rem;
+            }
+
+            .nav-tabs::-webkit-scrollbar {
+                display: none;
+            }
+
+            .nav-tabs .nav-item {
+                flex-shrink: 0;
+            }
+
+            .nav-tabs .nav-link {
+                white-space: nowrap;
+                padding: 0.5rem 0.75rem;
+            }
+
+          
+            .navbar-profile {
+                margin-left: auto;
+            }
+
+            .profile-info {
+                display: none;
+            }
+
+            .profile-avatar i {
+                font-size: 1.2rem;
+                transition: transform 0.2s ease, color 0.2s ease;
+                color: white;
+            }
+
+            .profile-avatar:hover i {
+                transform: scale(1.1);
+                color: var(--purple-light);
+            }
+        }
+
+       
+        @media (max-width: 480px) {
+            .nav-tabs .nav-link {
+                font-size: 0.875rem;
+                padding: 0.4rem 0.6rem;
+            }
+
+            .nav-tabs .nav-link i {
+                margin-right: 0.25rem;
+            }
+
+            .badge {
+                font-size: 0.675rem;
+                padding: 0.2rem 0.4rem;
+            }
         }
     </style>
 </head>
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-lg navbar-light bg
-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand ms-2" href="#">To-Do
-                    List</a>
+                <a class="navbar-brand ms-2" href="#">To-Do-List</a>
                 <div class="navbar-profile dropdown ms-auto">
                     <div class="d-flex align-items-center gap-3" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <div class="profile-info d-none d-md-block 
-opacity-30">
+                        <div class="profile-info d-none d-md-block opacity-30">
                             <div class="profile-name">{{ Auth::user()->name }}</div>
                             <div class="profile-email">{{ Auth::user()->email }}</div>
                         </div>
-                        <div class="profile-avatar"><i class="fas 
-fa-user"></i></div>
+                        <div class="profile-avatar">
+                            <i class="fas fa-user"></i> <!-- Ikon user -->
+                        </div>
                     </div>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
-                            <div class="dropdown-item-text d-md
-none">
+                            <div class="dropdown-item-text d-md-none">
                                 <div class="fw-bold">{{ Auth::user()->name }}</div>
                                 <div class="small text-muted">{{ Auth::user()->email }}</div>
                             </div>
                         </li>
                         <li>
-                            <hr class="dropdown-divider d-md
-none">
+                            <hr class="dropdown-divider d-md-none">
                         </li>
                         <li>
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
-                                <button type="submit" class="dropdown-item text-danger"><i
-                                        class="fas fa-sign-out-alt 
-                                me-2"></i>Keluar</button>
+                                <button type="submit" class="dropdown-item text-danger">
+                                    <i class="fas fa-sign-out-alt me-2"></i>Keluar
+                                </button>
                             </form>
                         </li>
                     </ul>
@@ -192,34 +296,65 @@ none">
             </div>
         </nav>
     </div>
-    <div>@yield('content')</div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstra
-                                     p.bundle.min.js"></script>
-    <script>
-        (() => {
-                'use strict';
-                const forms = document.querySelectorAll('.needs
-                    validation '); 
-                    Array.from(forms).forEach(form => {
-                        form.addEventListener('submit', event => {
-                            if (!form.checkValidity()) {
-                                event.preventDefault();
-                                event.stopPropagation();
-                            }
-                            form.classList.add('was-validated');
-                        }, false);
-                    });
-                })();
+    <div>
+        @yield('content')
+    </div>
+    </div>
 
-            document.getElementById('searchTask')?.addEventListener('keyup',
-                function(e) {
-                    const searchText = e.target.value.toLowerCase();
-                    document.querySelectorAll('.list-group
-                        item ').forEach(task => { 
-                        task.style.display =
-                        task.querySelector('h6').textContent.toLowerCase().includes(search Text) ? '' : 'none';
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Form validation
+        (() => {
+            'use strict'
+            const forms = document.querySelectorAll('.needs-validation')
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+
+        // Search functionality
+        document.getElementById('searchTask')?.addEventListener('keyup', function(e) {
+            const searchText = e.target.value.toLowerCase();
+            const tasks = document.querySelectorAll('.list-group-item');
+            tasks.forEach(task => {
+                const title = task.querySelector('h6').textContent.toLowerCase();
+                task.style.display = title.includes(searchText) ? '' : 'none';
+            });
+        });
+
+        // Task filtering
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (this.dataset.filter) {
+                    e.preventDefault();
+                    const filter = this.dataset.filter;
+                    const tasks = document.querySelectorAll('.list-group-item');
+
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+
+                    tasks.forEach(task => {
+                        const isCompleted = task.querySelector('.form-check-input').checked;
+                        if (filter === 'all') {
+                            task.style.display = '';
+                        } else if (filter === 'active' && !isCompleted) {
+                            task.style.display = '';
+                        } else if (filter === 'completed' && isCompleted) {
+                            task.style.display = '';
+                        } else {
+                            task.style.display = 'none';
+                        }
                     });
-                });
+                }
+            });
+        });
     </script>
     @stack('scripts')
 </body>

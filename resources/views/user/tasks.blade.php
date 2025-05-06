@@ -69,8 +69,7 @@ grow-1" data-bs-toggle="modal" data-bs-target="#addTaskModal">
                     <li class="nav-item flex-grow-1 text-center">
                         <a class="nav-link d-flex align-items
             center justify-content-center {{ request('status') === 'tertunda' ? 'active' : '' }}"
-                            href="{{ route('tasks.index', ['status' => 'tertunda']) }}"
-                            style="min-width: 100px;">
+                            href="{{ route('tasks.index', ['status' => 'tertunda']) }}" style="min-width: 100px;">
                             <i class="fas fa-clock me-2"></i>
                             Aktif
                             <span
@@ -81,8 +80,7 @@ grow-1" data-bs-toggle="modal" data-bs-target="#addTaskModal">
                     <li class="nav-item flex-grow-1 text-center">
                         <a class="nav-link d-flex align-items
             center justify-content-center {{ request('status') === 'selesai' ? 'active' : '' }}"
-                            href="{{ route('tasks.index', ['status' => 'selesai']) }}"
-                            style="min-width: 100px;">
+                            href="{{ route('tasks.index', ['status' => 'selesai']) }}" style="min-width: 100px;">
                             <i class="fas fa-check-circle me
             2"></i>
                             Selesai

@@ -5,51 +5,59 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+// Model Task untuk merepresentasikan tabel tasks dalam database
 class Task extends Model
 {
     use HasFactory;
 
-    // Tentukan nama tabel jika tidak sesuai dengan nama default (tasks)
-    protected $table = 'tasks';
-
-    // Tentukan kolom yang dapat diisi (mass assignable)
+    // Kolom yang dapat diisi secara massal 
     protected $fillable = [
-        'id_user',
-        'judul',
-        'deskripsi',
-        'deadline',
-        'status',
+        'judul',         // Judul task
+        'deskripsi',     // Deskripsi detail task
+        'deadline',      // Tenggat waktu task
+        'status',        // Status task (tertunda/selesai) 
+        'id_user'        // ID user pemilik task
     ];
 
-    protected $casts = [ 
-        'deadline' => 'datetime' 
-    ]; 
-    protected $attributes = [ 
-        'status' => 'tertunda' 
-    ]; 
-    public function user() 
-    { 
-        return $this->belongsTo(User::class, 'id_user'); 
-    }
-    public function scopeFilter($query, array $filters)
+    // Mengubah tipe data kolom deadline menjadi datetime
+    protected $casts = [
+        'deadline' => 'datetime'
+    ];
+
+    // Nilai default untuk kolom status
+    protected $attributes = [
+        'status' => 'tertunda'
+    ];
+
+    // Relasi ke model User (many-to-one)
+    public function user()
     {
-        $query->when($filters['search'] ?? false, function ($query, $search) {
-            $query->where('judul', 'like', '%' . $search . '%')
-                ->orWhere('deskripsi', 'like', '%' . $search . '%');
-        });
-        $query->when($filters['status'] ?? false, function ($query, $status) {
-            $query->where('status', $status);
-        });
-        $query->when($filters['user'] ?? false, function ($query, $user) {
-            $query->where('id_user', $user);
-        });
+        return $this->belongsTo(User::class, 'id_user');
     }
-    public function scopeCountByStatus($query, $status)
+
+    // Method untuk pencarian dan filter task
+    public function scopeSearch($query, $filters)
     {
-        return $query->where('status', $status)->count();
+        return $query
+            // Filter berdasarkan kata kunci pencarian
+            ->when($filters['search'] ?? false, function($query, $search) {
+                $query->where('judul', 'like', '%' . $search . '%');
+            })
+            // Filter berdasarkan status
+            ->when($filters['status'] ?? false, function($query, $status) {
+                $query->where('status', $status);
+            })
+            // Filter berdasarkan user yang login
+            ->where('id_user', auth()->id());
     }
-    public function scopeCountByUser($query, $userId)
+
+    // Method untuk menghitung jumlah task berdasarkan status
+    public function scopeCountByStatus($query, $status = null)
     {
-        return $query->where('id_user', $userId)->count();
+        return $query->where('id_user', auth()->id())
+            ->when($status, function($query, $status) {
+                $query->where('status', $status);
+            })
+            ->count();
     }
 }

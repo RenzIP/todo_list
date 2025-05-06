@@ -2,20 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+// Model Role untuk merepresentasikan peran/role user
 class Role extends Model
 {
-    use HasFactory;
-
-    // Tentukan nama tabel jika tidak sesuai dengan nama default (roles)
-    protected $table = 'roles';
-
-    // Tentukan kolom yang dapat diisi (mass assignable)
+    // Hanya kolom nama yang bisa diisi massal
     protected $fillable = ['nama'];
 
-    // Relasi dengan model User
+    // Relasi one-to-many dengan User
     public function users()
     {
         return $this->hasMany(User::class, 'id_role');

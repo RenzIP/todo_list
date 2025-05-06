@@ -1,17 +1,19 @@
 <?php
 
-use Illuminate\Support\Facades\Route; 
-use App\Http\Controllers\TaskController; 
-use App\Http\Controllers\AuthController; 
-use App\Http\Controllers\DashboardController; 
-use App\Http\Controllers\KelolaUserController; 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KelolaUserController;
 use App\Http\Middleware\CheckRole;
 
-Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
+// Public routes
+
+    Route::get('/', [AuthController::class, 'showLoginForm'])->middleware('guest');
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register')->middleware('guest');
+    Route::post('/register', [AuthController::class, 'register'])->name('create.user');
 
 
 // Protected routes
